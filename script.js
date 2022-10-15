@@ -1,5 +1,18 @@
+const modalOpen = document.querySelector(".modal-open");
+const modalClose = document.querySelector(".modal-close");
+const modal = document.querySelector(".modal");
+const modalOverlay = document.querySelector(".modal-overlay");
 const main = document.querySelector("main");
 const library = [];
+
+modalOpen.addEventListener("click", toggleModal);
+modalClose.addEventListener("click", toggleModal);
+modalOverlay.addEventListener("click", toggleModal);
+
+function toggleModal() {
+  modal.classList.toggle("open");
+  modalOverlay.classList.toggle("open");
+}
 
 function updateDisplay() {
   main.innerHTML = "";
