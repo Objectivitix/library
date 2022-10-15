@@ -31,22 +31,40 @@ button {
   font-size: 100%;
 }
 
-/* WHATEVER */
+/* GLOBAL */
+
+:root {
+  --black: hsl(0 0% 0%);
+  --gray-2: hsl(0 0% 80%);
+  --gray-1: hsl(0 0% 95%);
+  --white: hsl(0 0% 100%);
+  --lg-green: hsl(125 100% 75%);
+  --lg-red: hsl(0 100% 75%);
+
+  --overlay: hsl(0 0% 0% / 50%);
+
+  --main-shadow: inset 0 0 15px hsl(0 0% 0% / 30%);
+  --card-shadow: 8px 8px 0 -4px hsl(0 0% 0% / 50%);
+
+  --transition-med: 200ms;
+  --transition-fast: 150ms;
+}
 
 body {
-  --black: hsl(0 0% 0%);
-  --gray-200: hsl(0 0% 80%);
-  --white: hsl(0 0% 100%);
-
   font-family: "Raleway", sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 button {
   cursor: pointer;
+}
+
+/* PAGE-WIDE LAYOUT */
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
@@ -56,6 +74,8 @@ button {
   gap: 2rem;
 }
 
+/* HEADER */
+
 header {
   display: flex;
   justify-content: space-between;
@@ -63,25 +83,27 @@ header {
 }
 
 h1 {
-  font-size: min(3rem, calc(1.5rem + 2.5vw));
+  font-size: min(3rem, calc(1.5rem + 2vw));
 }
 
-header > button {
-  background-color: var(--gray-200);
+.modal-open {
+  background-color: var(--gray-2);
   padding: 0.5rem;
-  border: 2px solid var(--gray-200);
-  border-radius: 0.25rem;
-  transition: background-color 200ms;
+  border: 2px solid var(--gray-2);
+  border-radius: 6px;
+  transition: background-color var(--transition-med);
 }
 
-header > button:hover {
+.modal-open:hover {
   background-color: var(--white);
 }
 
-header > button:active {
-  background-color: var(--gray-200);
+.modal-open:active {
+  background-color: var(--gray-2);
   transition: none;
 }
+
+/* MAIN */
 
 .main-wrapper {
   max-height: 65vh;
@@ -89,11 +111,71 @@ header > button:active {
 }
 
 main {
+  background-color: var(--gray-1);
+  box-shadow: var(--main-shadow);
+  padding: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   grid-template-rows: 250px 250px;
   grid-auto-rows: 250px;
+  gap: 2rem;
 }
+
+.card {
+  --clr: var(--lg-red);
+  font-size: 0.9rem;
+  background-color: var(--white);
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card.read {
+  --clr: var(--lg-green);
+}
+
+.card > .title {
+  font-size: 1.125rem;
+  margin-bottom: 2px; /* extra spacing */
+}
+
+.card > button {
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color var(--transition-med);
+}
+
+.card > button:hover {
+  background-color: var(--white);
+}
+
+.card > button:active {
+  transition: none;
+}
+
+.card > .read-status {
+  background-color: var(--clr);
+  border: 1px solid var(--clr);
+  margin-top: auto;
+  margin-bottom: 3px; /* extra spacing */
+}
+
+.card > .read-status:active {
+  background-color: var(--gray-1);
+}
+
+.card > .remove {
+  background-color: var(--gray-2);
+  border: 1px solid var(--gray-2);
+}
+
+.card > .remove:active {
+  background-color: var(--gray-2);
+}
+
+/* MODAL */
 
 .modal {
   display: none;
@@ -115,7 +197,7 @@ main {
   display: none;
   position: fixed;
   inset: 0;
-  background-color: hsl(0 0% 0% / 50%);
+  background-color: var(--overlay);
 }
 
 .modal.open {

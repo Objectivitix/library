@@ -1,9 +1,10 @@
+const main = document.querySelector("main");
+const library = [];
+
 const modalOpen = document.querySelector(".modal-open");
 const modalClose = document.querySelector(".modal-close");
 const modal = document.querySelector(".modal");
 const modalOverlay = document.querySelector(".modal-overlay");
-const main = document.querySelector("main");
-const library = [];
 
 modalOpen.addEventListener("click", toggleModal);
 modalClose.addEventListener("click", toggleModal);
@@ -18,11 +19,21 @@ function updateDisplay() {
   main.innerHTML = "";
   library.forEach(book => {
     const card = document.createElement("div");
+    card.classList.add("card");
+    card.classList.toggle("read", book.readStatus);
+
     card.innerHTML = `
       <h2 class="title">${book.title}</h2>
-      <p class="author">${book.author}</p>
-      <p class="page-count">${book.pageCount}</p>
-      <p class="read-status">${book.readStatus}</p>`;
+      <p class="author">by ${book.author}</p>
+      <p class="page-count">${book.pageCount} pages</p>
+      <button class="read-status">${book.readStatus ? "✔️ Read" : "Mark as read"}</button>
+      <button class="remove">Remove</button>`;
+
+    card.querySelector(".read-status").addEventListener("click", evt => {
+      book.toggleRead();
+      evt.target.textContent = book.readStatus ? "✔️ Read" : "Mark as read";
+      card.classList.toggle("read");
+    });
 
     main.appendChild(card);
   });
