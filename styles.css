@@ -65,6 +65,16 @@ button {
   cursor: pointer;
 }
 
+/* SVGs */
+
+.icon-defs {
+  display: none;
+}
+
+svg use {
+  fill: currentColor;
+}
+
 /* PAGE-WIDE LAYOUT */
 
 body {
@@ -198,8 +208,20 @@ main {
 
 .modal-close {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 12px;
+  right: 10px;
+  background: none;
+  padding: 0;
+  border: 0;
+}
+
+.modal-close > svg {
+  width: 1.5rem;
+  transition: transform var(--transition-med);
+}
+
+.modal-close > svg:hover {
+  transform: rotate(90deg);
 }
 
 .modal-overlay {
