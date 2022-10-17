@@ -22,8 +22,18 @@
   </div>
 
   <div class="modal">
-    hey
     <button class="modal-close">x</button>
+    <form>
+      <h2>Add a new book</h2>
+      <input type="text" id="title" required>
+      <input type="text" id="author" required>
+      <input type="number" id="page-count" min="1" required>
+      <div>
+        <label for="read-status">Have you read it?</label>
+        <input type="checkbox" id="read-status">
+      </div>
+      <button type="button">Add to library</button>
+    </form>
   </div>
   <div class="modal-overlay"></div>
 </body>

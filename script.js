@@ -1,6 +1,8 @@
 const main = document.querySelector("main");
 const library = [];
 
+/* MODAL */
+
 const modalOpen = document.querySelector(".modal-open");
 const modalClose = document.querySelector(".modal-close");
 const modal = document.querySelector(".modal");
@@ -14,6 +16,50 @@ function toggleModal() {
   modal.classList.toggle("open");
   modalOverlay.classList.toggle("open");
 }
+
+/* FORM */
+
+const form = document.querySelector(".modal > form");
+const formInputs = Array.from(form.elements);
+const submitButton = form.querySelector("button");
+
+modalClose.addEventListener("click", clearForm);
+
+formInputs.forEach(inp => inp.addEventListener(
+  "keydown", evt => evt.target.classList.remove("invalid")));
+
+submitButton.addEventListener("click", processSubmission);
+
+function processSubmission() {
+  if (form.checkValidity()) {
+    addBookfromForm();
+    toggleModal();
+    clearForm();
+    return;
+  }
+
+  formInputs.forEach(inp =>
+    inp.classList.toggle("invalid", !inp.validity.valid));
+}
+
+function addBookfromForm() {
+  addBook(
+    form.querySelector("#title").value,
+    form.querySelector("#author").value,
+    Number(form.querySelector("#page-count").value),
+    form.querySelector("#read-status").checked,
+  );
+  updateDisplay();
+}
+
+function clearForm() {
+  formInputs.forEach(inp => {
+    inp.value = "";
+    inp.classList.remove("invalid");
+  });
+}
+
+/* CORE */
 
 function updateDisplay() {
   main.innerHTML = "";
@@ -33,6 +79,11 @@ function updateDisplay() {
       book.toggleRead();
       evt.target.textContent = book.readStatus ? "✔️ Read" : "Mark as read";
       card.classList.toggle("read");
+    });
+
+    card.querySelector(".remove").addEventListener("click", () => {
+      library.splice(library.indexOf(book), 1);
+      card.remove();
     });
 
     main.appendChild(card);
