@@ -23,16 +23,25 @@
 
   <div class="modal">
     <button class="modal-close"><div data-icon="close"></div></button>
-    <form>
+    <form autocomplete="off">
       <h2>Add a new book</h2>
-      <input type="text" id="title" required>
-      <input type="text" id="author" required>
-      <input type="number" id="page-count" min="1" required>
+      <div>
+        <input type="text" id="title" required placeholder=" ">
+        <label for="title">Title</label>
+      </div>
+      <div>
+        <input type="text" id="author" required placeholder=" ">
+        <label for="author">Author</label>
+      </div>
+      <div>
+        <input type="number" id="page-count" min="1" required placeholder=" ">
+        <label for="page-count">Number of pages</label>
+      </div>
       <div>
         <label for="read-status">Have you read it?</label>
         <input type="checkbox" id="read-status">
       </div>
-      <button type="button">Add to library</button>
+      <button class="submit">Add to library</button>
     </form>
   </div>
   <div class="modal-overlay"></div>

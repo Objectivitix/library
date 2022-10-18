@@ -195,15 +195,15 @@ main {
 /* MODAL */
 
 .modal {
-  display: none;
   position: fixed;
   z-index: 1;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0);
   background-color: var(--white);
   padding: 2rem;
   border-radius: 0.5rem;
+  transition: transform var(--transition-med);
 }
 
 .modal-close {
@@ -225,19 +225,24 @@ main {
 }
 
 .modal-overlay {
-  display: none;
   position: fixed;
   inset: 0;
+  width: 0; /* hacky way to replace display: none; */
   background-color: var(--overlay);
+  opacity: 0;
+  transition: opacity var(--transition-med);
 }
 
 .modal.open {
-  display: block;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .modal-overlay.open {
-  display: block;
+  width: initial;
+  opacity: 1;
 }
+
+/* FORM */
 
 form {
   display: flex;
@@ -245,24 +250,44 @@ form {
   gap: 1rem;
 }
 
-form > input {
+form > div {
+  position: relative;
+}
+
+form input:not([type="radio"], [type="checkbox"]) {
   background-color: var(--gray-1);
   width: min(20rem, 60vw);
-  padding: 0.75rem;
+  padding: 1.125rem 0.75rem 0.625rem;
   border: 2px solid var(--gray-1);
   border-radius: 0.5rem;
   transition: border-color var(--transition-fast);
 }
 
-form > input:focus {
+form input:focus {
   border-color: var(--lg-blue);
 }
 
-form > input.invalid {
+form input.invalid {
   border-color: var(--lg-red);
 }
 
-form > button {
+form input + label {
+  position: absolute;
+  top: 50%;
+  left: calc(0.75rem + 1px);
+  transform: translateY(-50%);
+  opacity: 0.35;
+  transition: all var(--transition-med), font-weight 0ms;
+  transform-origin: left;
+}
+
+form input:where(:focus, :not(:placeholder-shown)) + label {
+  font-weight: bold;
+  opacity: 0.6;
+  transform: translateY(-1.375rem) scale(0.6);
+}
+
+form .submit {
   font-weight: bold;
   background-color: var(--gray-2);
   padding: 0.75rem;
@@ -271,11 +296,11 @@ form > button {
   transition: background-color var(--transition-med);
 }
 
-form > button:hover {
+form .submit:hover {
   background-color: var(--white);
 }
 
-form > button:active {
+form .submit:active {
   background-color: var(--gray-2);
   transition: none;
 }
