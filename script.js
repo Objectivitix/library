@@ -24,23 +24,20 @@ const formInputs = Array.from(form.elements);
 const submitButton = form.querySelector("button");
 
 modalClose.addEventListener("click", clearForm);
+modalOverlay.addEventListener("click", clearForm);
 
 formInputs.forEach(inp => inp.addEventListener(
   "keydown", evt => evt.target.classList.remove("invalid")));
 
-submitButton.addEventListener("click", processSubmission);
+submitButton.addEventListener("click", () => formInputs.forEach(
+  inp => inp.classList.toggle("invalid", !inp.validity.valid)));
 
-function processSubmission() {
-  if (form.checkValidity()) {
-    addBookfromForm();
-    toggleModal();
-    clearForm();
-    return;
-  }
-
-  formInputs.forEach(inp =>
-    inp.classList.toggle("invalid", !inp.validity.valid));
-}
+form.addEventListener("submit", evt => {
+  addBookfromForm();
+  toggleModal();
+  clearForm();
+  evt.preventDefault();
+});
 
 function addBookfromForm() {
   addBook(
@@ -53,10 +50,8 @@ function addBookfromForm() {
 }
 
 function clearForm() {
-  formInputs.forEach(inp => {
-    inp.value = "";
-    inp.classList.remove("invalid");
-  });
+  form.reset();
+  formInputs.forEach(inp => inp.classList.remove("invalid"));
 }
 
 /* CORE */
