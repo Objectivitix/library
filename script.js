@@ -1,6 +1,11 @@
 const main = document.querySelector("main");
 const library = [];
 
+if (localStorage.getItem("library")) {
+  setupFromStorage();
+  updateDisplay();
+}
+
 /* MODAL */
 
 const modalOpen = document.querySelector(".modal-open");
@@ -47,6 +52,7 @@ function addBookfromForm() {
     form.querySelector("#read-status").checked,
   );
   updateDisplay();
+  updateStorage();
 }
 
 function clearForm() {
@@ -74,11 +80,13 @@ function updateDisplay() {
       book.toggleRead();
       evt.target.textContent = book.readStatus ? "✔️ Read" : "Mark as read";
       card.classList.toggle("read");
+      updateStorage();
     });
 
     card.querySelector(".remove").addEventListener("click", () => {
       library.splice(library.indexOf(book), 1);
       card.remove();
+      updateStorage();
     });
 
     main.appendChild(card);
@@ -98,6 +106,17 @@ function Book(title, author, pageCount, readStatus) {
 
 Book.prototype.toggleRead = function () {
   this.readStatus = !this.readStatus;
+}
+
+/* STORAGE */
+
+function updateStorage() {
+  localStorage.setItem("library", JSON.stringify(library));
+}
+
+function setupFromStorage() {
+  JSON.parse(localStorage.getItem("library"))
+    .forEach(obj => addBook(...Object.values(obj)));
 }
 
 /* SVGs */
